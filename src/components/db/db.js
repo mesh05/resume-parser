@@ -1,47 +1,64 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose, { Mongoose } from "mongoose";
 
-const uri = `mongodb+srv://mesh:${process.env.MONGO_PASSWORD}@delivery-app.5jye8pq.mongodb.net/?appName=delivery-app`;
+global.mongoose = {
+  conn: null,
+  promise: null,
+};
 
-async function run() {
+export async function dbConnect() {
   try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await mongoose.connect(uri);
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
+    if (global.mongoose && global.mongoose.conn) {
+      console.log("Connected from previous");
+      return global.mongoose.conn;
+    } else {
+      const conString = process.env.MONGO_URL;
+
+      const promise = mongoose.connect(conString, {
+        autoIndex: true,
+      });
+
+      global.mongoose = {
+        conn: await promise,
+        promise,
+      };
+
+      console.log("Newly connected");
+      return await promise;
+    }
+  } catch (error) {
+    console.error("Error connecting to the database:", error);
+    throw new Error("Database connection failed");
   }
 }
-run().catch(console.dir);
 
-const userSchema = new mongoose.Schema({
-  userId: Number,
-  userName: String,
-  name: String,
-  email: String,
-  github: String,
-  linkedin: String,
-  education: new mongoose.Schema({
-    institute: String,
-    degree: String,
-    year: Number,
-    GPA: Number,
-  }),
-  experience: [
-    new mongoose.Schema({
-      company: String,
-      role: String,
-      year: Number,
-    }),
-  ],
-  skills: [String],
-  projects: [new mongoose.Schema({ name: String, description: String })],
-});
+export const disconnect = () => {
+  if (!global.mongoose.conn) {
+    return;
+  }
+  global.mongoose.conn = null;
+  mongoose.disconnect();
+};
 
-const User = mongoose.model("User", userSchema);
-
-export { User };
+// const userSchema = new mongoose.Schema({
+//   userId: Number,
+//   userName: String,
+//   name: String,
+//   email: String,
+//   github: String,
+//   linkedin: String,
+//   education: new mongoose.Schema({
+//     institute: String,
+//     degree: String,
+//     year: Number,
+//     GPA: Number,
+//   }),
+//   experience: [
+//     new mongoose.Schema({
+//       company: String,
+//       role: String,
+//       year: Number,
+//     }),
+//   ],
+//   skills: [String],
+//   projects: [new mongoose.Schema({ name: String, description: String })],
+// });
