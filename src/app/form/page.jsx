@@ -1,7 +1,10 @@
 "use client";
+import axios from "axios";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 const Page = () => {
+  const session = useSession();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -36,136 +39,216 @@ const Page = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission here
+    axios.post("http://localhost:3000/api/userdetails", {
+      username: session.user.name,
+      formData,
+    });
     console.log(formData);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Name:
-        <input
-          type="text"
-          name="name"
-          placeholder="Enter your name"
-          value={formData.name}
-          onChange={handleChange}
-        />
-      </label>
-      <br />
-      <label>
-        Email:
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter your email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-      </label>
-      <br />
-      <label>
-        Phone:
-        <input
-          type="text"
-          name="phone"
-          placeholder="Enter your phone number"
-          value={formData.phone}
-          onChange={handleChange}
-        />
-      </label>
-      <br />
-      <label>
-        Github:
-        <input
-          type="text"
-          name="github"
-          placeholder="Enter your Github profile"
-          value={formData.github}
-          onChange={handleChange}
-        />
-      </label>
-      <br />
-      <label>
-        Linkedin:
-        <input
-          type="text"
-          name="linkedin"
-          placeholder="Enter your Linkedin profile"
-          value={formData.linkedin}
-          onChange={handleChange}
-        />
-      </label>
-      <br />
-      <label>
-        Education:
-        <input
-          type="text"
-          name="institute"
-          placeholder="Institute"
-          value={formData.education.institute}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="degree"
-          placeholder="Degree"
-          value={formData.education.degree}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="year"
-          placeholder="Year"
-          value={formData.education.year}
-          onChange={handleChange}
-        />
-        <input
-          type="number"
-          name="GPA"
-          placeholder="GPA"
-          value={formData.education.GPA}
-          onChange={handleChange}
-        />
-      </label>
-      <br />
-      <label>
-        Experience:
-        <input
-          type="text"
-          name="company"
-          placeholder="Company"
-          value={formData.experience.company}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="role"
-          placeholder="Role"
-          value={formData.experience.role}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="year"
-          placeholder="Year"
-          value={formData.experience.year}
-          onChange={handleChange}
-        />
-      </label>
-      <br />
-      <label>
-        Skills:
-        <input
-          type="text"
-          name="skills"
-          placeholder="Enter your skills"
-          value={formData.skills}
-          onChange={handleChange}
-        />
-      </label>
-      <br />
-      <button type="submit">Submit</button>
-    </form>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          Fill out your information
+        </h2>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          <div className="rounded-md shadow-sm -space-y-px">
+            <div>
+              <label htmlFor="name" className="sr-only">
+                Name
+              </label>
+              <input
+                type="text"
+                name="name"
+                placeholder="Enter your name"
+                value={formData.name}
+                onChange={handleChange}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              />
+            </div>
+            <div>
+              <label htmlFor="email" className="sr-only">
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                value={formData.email}
+                onChange={handleChange}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              />
+            </div>
+            <div>
+              <label htmlFor="phone" className="sr-only">
+                Phone
+              </label>
+              <input
+                type="text"
+                name="phone"
+                placeholder="Enter your phone number"
+                value={formData.phone}
+                onChange={handleChange}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              />
+            </div>
+            <div>
+              <label htmlFor="github" className="sr-only">
+                Github
+              </label>
+              <input
+                type="text"
+                name="github"
+                placeholder="Enter your Github profile"
+                value={formData.github}
+                onChange={handleChange}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              />
+            </div>
+            <div>
+              <label htmlFor="linkedin" className="sr-only">
+                Linkedin
+              </label>
+              <input
+                type="text"
+                name="linkedin"
+                placeholder="Enter your Linkedin profile"
+                value={formData.linkedin}
+                onChange={handleChange}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              />
+            </div>
+          </div>
+
+          <div className="rounded-md shadow-sm -space-y-px">
+            <h3 className="text-lg leading-6 font-medium text-gray-900 mt-6 mb-4">
+              Education
+            </h3>
+            <div>
+              <label htmlFor="institute" className="sr-only">
+                Institute
+              </label>
+              <input
+                type="text"
+                name="institute"
+                placeholder="Institute"
+                value={formData.education.institute}
+                onChange={handleChange}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              />
+            </div>
+            <div>
+              <label htmlFor="degree" className="sr-only">
+                Degree
+              </label>
+              <input
+                type="text"
+                name="degree"
+                placeholder="Degree"
+                value={formData.education.degree}
+                onChange={handleChange}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              />
+            </div>
+            <div>
+              <label htmlFor="year" className="sr-only">
+                Year
+              </label>
+              <input
+                type="text"
+                name="year"
+                placeholder="Year"
+                value={formData.education.year}
+                onChange={handleChange}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              />
+            </div>
+            <div>
+              <label htmlFor="GPA" className="sr-only">
+                GPA
+              </label>
+              <input
+                type="number"
+                name="GPA"
+                placeholder="GPA"
+                value={formData.education.GPA}
+                onChange={handleChange}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              />
+            </div>
+          </div>
+
+          <div className="rounded-md shadow-sm -space-y-px">
+            <h3 className="text-lg leading-6 font-medium text-gray-900 mt-6 mb-4">
+              Experience
+            </h3>
+            <div>
+              <label htmlFor="company" className="sr-only">
+                Company
+              </label>
+              <input
+                type="text"
+                name="company"
+                placeholder="Company"
+                value={formData.experience.company}
+                onChange={handleChange}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              />
+            </div>
+            <div>
+              <label htmlFor="role" className="sr-only">
+                Role
+              </label>
+              <input
+                type="text"
+                name="role"
+                placeholder="Role"
+                value={formData.experience.role}
+                onChange={handleChange}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              />
+            </div>
+            <div>
+              <label htmlFor="year" className="sr-only">
+                Year
+              </label>
+              <input
+                type="text"
+                name="year"
+                placeholder="Year"
+                value={formData.experience.year}
+                onChange={handleChange}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              />
+            </div>
+          </div>
+
+          <div className="rounded-md shadow-sm -space-y-px">
+            <label htmlFor="skills" className="sr-only">
+              Skills
+            </label>
+            <input
+              type="text"
+              name="skills"
+              placeholder="Enter your skills"
+              value={formData.skills}
+              onChange={handleChange}
+              className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+            />
+          </div>
+
+          <div>
+            <button
+              type="submit"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };
 
