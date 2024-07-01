@@ -1,24 +1,14 @@
-import connectToDatabase from "@/components/db/db";
-import User from "@/components/models/user";
+import connection from "@/components/db/db";
 import { NextResponse } from "next/server";
 
 async function handler(req, res) {
   try {
-    await connectToDatabase();
-
-    // Perform your MongoDB operations here
-    const data = await User.db("resume")
-      .collection("User")
-      .findOne({ hi: "hello" })
-      .toArray();
-
-    return new NextResponse({ data }, { status: 200 });
+    const [rows] = await connection.query("SELECT * FROM users");
+    return NextResponse.json(rows);
   } catch (error) {
     console.error(error);
-    return new NextResponse({
-      error: "An error occurred while connecting to MongoDB",
-    });
+    return NextResponse.json({ error: "An error occurred" }, { status: 500 });
   }
 }
 
-export { handler as GET, handler as POST };
+export { handler as GET };
