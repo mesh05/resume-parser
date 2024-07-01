@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 const Page = () => {
-  const session = useSession();
+  const { data: session, status } = useSession();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -12,25 +12,40 @@ const Page = () => {
     location: "",
     github: "",
     linkedin: "",
-    education: {
-      institute: "",
-      degree: "",
-      year: "",
-      GPA: "",
-    },
-    experience: {
-      company: "",
-      role: "",
-      year: "",
-    },
     skills: "",
     projects: [{ name: "", description: "" }],
     achievements: [],
+  });
+  const [education, setEducation] = useState({
+    institute: "",
+    degree: "",
+    year: "",
+    GPA: "",
+  });
+
+  const [experience, setExperience] = useState({
+    company: "",
+    role: "",
+    year: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  const handleChangeEdu = (e) => {
+    const { name, value } = e.target;
+    setEducation((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  const handleChangeExp = (e) => {
+    const { name, value } = e.target;
+    setExperience((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -42,8 +57,9 @@ const Page = () => {
     axios.post("http://localhost:3000/api/userdetails", {
       username: session.user.name,
       formData,
+      education,
+      experience,
     });
-    console.log(formData);
   };
 
   return (
@@ -133,8 +149,8 @@ const Page = () => {
                 type="text"
                 name="institute"
                 placeholder="Institute"
-                value={formData.education.institute}
-                onChange={handleChange}
+                value={education.institute}
+                onChange={handleChangeEdu}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               />
             </div>
@@ -146,8 +162,8 @@ const Page = () => {
                 type="text"
                 name="degree"
                 placeholder="Degree"
-                value={formData.education.degree}
-                onChange={handleChange}
+                value={education.degree}
+                onChange={handleChangeEdu}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               />
             </div>
@@ -159,8 +175,8 @@ const Page = () => {
                 type="text"
                 name="year"
                 placeholder="Year"
-                value={formData.education.year}
-                onChange={handleChange}
+                value={education.year}
+                onChange={handleChangeEdu}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               />
             </div>
@@ -172,8 +188,8 @@ const Page = () => {
                 type="number"
                 name="GPA"
                 placeholder="GPA"
-                value={formData.education.GPA}
-                onChange={handleChange}
+                value={education.GPA}
+                onChange={handleChangeEdu}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               />
             </div>
@@ -191,8 +207,8 @@ const Page = () => {
                 type="text"
                 name="company"
                 placeholder="Company"
-                value={formData.experience.company}
-                onChange={handleChange}
+                value={experience.company}
+                onChange={handleChangeExp}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               />
             </div>
@@ -204,8 +220,8 @@ const Page = () => {
                 type="text"
                 name="role"
                 placeholder="Role"
-                value={formData.experience.role}
-                onChange={handleChange}
+                value={experience.role}
+                onChange={handleChangeExp}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               />
             </div>
@@ -217,8 +233,8 @@ const Page = () => {
                 type="text"
                 name="year"
                 placeholder="Year"
-                value={formData.experience.year}
-                onChange={handleChange}
+                value={experience.year}
+                onChange={handleChangeExp}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               />
             </div>

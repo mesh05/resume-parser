@@ -2,27 +2,29 @@ import connection from "@/components/db/db";
 import { NextResponse } from "next/server";
 
 async function handler(req, res) {
-  const formData = req.body;
+  const data = req.body;
+  console.log(data);
   try {
-    const [rows] = await connection.query(
+    await connection.query(
       "INSERT into users (name,email,github,linkedin,education,experience,skills,achievements) VALUES (?,?,?,?,?,?,?,?) WHERE username=?",
       [
-        formData.name,
-        formData.email,
-        formData.github,
-        formData.linkedin,
-        JSON.stringify(formData.education),
-        JSON.stringify(formData.experience),
-        formData.skills,
-        formData.achievements,
+        data.formData.name,
+        data.formData.email,
+        data.formData.github,
+        data.formData.linkedin,
+        JSON.stringify(data.education),
+        JSON.stringify(data.experience),
+        data.formData.skills,
+        data.formData.achievements,
         req.body.username,
       ]
     );
-    return NextResponse.json(rows);
+
+    return NextResponse.json({ message: "User details added" });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "An error occurred" }, { status: 500 });
   }
 }
 
-export { handler as GET };
+export { handler as POST };
