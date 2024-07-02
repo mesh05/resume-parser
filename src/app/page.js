@@ -6,13 +6,18 @@ export default function Home() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
+  const handleSignOut = async () => {
+    await signOut({ redirect: false }); // Sign out without redirect
+    router.push("/"); // Redirect to the login page or another appropriate page
+  };
+
   return (
     <div
       className="flex min-h-screen bg-cover bg-center"
       style={{
         backgroundImage: "url('/assets/images/s2.png')",
-        width: "100%",
-        height: "100%",
+        width: '100%',
+        height: '100%',
         backgroundSize: "auto 900px", // Adjust the height as needed
       }}
     >
@@ -44,9 +49,7 @@ export default function Home() {
             </button>
             <button
               className="px-10 py-2 bg-custom-springgreen text-white rounded"
-              onClick={async () => {
-                await signOut();
-              }}
+              onClick={handleSignOut}
             >
               Sign Out
             </button>
