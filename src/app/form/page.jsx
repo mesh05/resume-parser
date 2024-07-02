@@ -13,6 +13,7 @@ const Page = () => {
     phone: "",
     location: "",
     github: "",
+    github_personal_token: "",
     linkedin: "",
     skills: "",
     projects: [{ name: "", description: "" }],
@@ -120,6 +121,19 @@ const Page = () => {
                 name="github"
                 placeholder="Enter your Github profile"
                 value={formData.github}
+                onChange={handleChange}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              />
+            </div>
+            <div>
+              <label htmlFor="github" className="sr-only">
+               Github Personal access token (classic)
+              </label>
+              <input
+                type="text"
+                name="github_personal_token"
+                placeholder="Enter your Github Personal access token (Classic)"
+                value={formData.github_personal_token}
                 onChange={handleChange}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               />
