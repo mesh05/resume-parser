@@ -1,10 +1,12 @@
 "use client";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const Page = () => {
   const { data: session, status } = useSession();
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -14,7 +16,7 @@ const Page = () => {
     linkedin: "",
     skills: "",
     projects: [{ name: "", description: "" }],
-    achievements: [],
+    achievements: "",
   });
   const [education, setEducation] = useState({
     institute: "",
@@ -249,6 +251,20 @@ const Page = () => {
               name="skills"
               placeholder="Enter your skills"
               value={formData.skills}
+              onChange={handleChange}
+              className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+            />
+          </div>
+
+          <div className="rounded-md shadow-sm -space-y-px">
+            <label htmlFor="skills" className="sr-only">
+              Achievements
+            </label>
+            <input
+              type="text"
+              name="achievements"
+              placeholder="Enter your achievements"
+              value={formData.achievements}
               onChange={handleChange}
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
             />

@@ -10,11 +10,11 @@ export default function Home() {
     <div
       className="flex min-h-screen bg-cover bg-center"
       style={{
-          backgroundImage: "url('/assets/images/s2.png')",
-          width: '100%',
-          height: '100%',
-          backgroundSize: "auto 900px", // Adjust the height as needed
-        }}
+        backgroundImage: "url('/assets/images/s2.png')",
+        width: "100%",
+        height: "100%",
+        backgroundSize: "auto 900px", // Adjust the height as needed
+      }}
     >
       <div className="w-1/2 flex flex-col items-start justify-center p-24 bg-opacity-50">
         {/* <img
