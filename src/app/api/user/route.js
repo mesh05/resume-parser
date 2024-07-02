@@ -11,7 +11,7 @@ async function handler(req, res) {
       "SELECT * FROM users WHERE username = ?",
       [session.user.name]
     );
-    return NextResponse.json(rows[0]);
+    return NextResponse.json(rows);
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "An error occurred" }, { status: 500 });

@@ -11,25 +11,29 @@ const Page = () => {
     name: "",
     email: "",
     phone: "",
-    location: "",
     github: "",
-    github_personal_token: "",
     linkedin: "",
     skills: "",
-    projects: [{ name: "", description: "" }],
     achievements: "",
+    place: "",
   });
   const [education, setEducation] = useState({
     institute: "",
-    degree: "",
-    year: "",
-    GPA: "",
+    instituteYear: "",
+    school: "",
+    schoolYear: "",
+  });
+
+  const [projects, setProjects] = useState({
+    project1: "",
+    project2: "",
+    project3: "",
   });
 
   const [experience, setExperience] = useState({
-    company: "",
     role: "",
-    year: "",
+    company: "",
+    companyYear: "",
   });
 
   const handleChange = (e) => {
@@ -54,6 +58,14 @@ const Page = () => {
     }));
   };
 
+  const handleChangeProj = (e) => {
+    const { name, value } = e.target;
+    setProjects((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission here
@@ -62,7 +74,9 @@ const Page = () => {
       formData,
       education,
       experience,
+      projects,
     });
+    router.push("/");
   };
 
   return (
@@ -113,6 +127,19 @@ const Page = () => {
               />
             </div>
             <div>
+              <label htmlFor="place" className="sr-only">
+                Place
+              </label>
+              <input
+                type="text"
+                name="place"
+                placeholder="Enter your Place"
+                value={formData.place}
+                onChange={handleChange}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              />
+            </div>
+            <div>
               <label htmlFor="github" className="sr-only">
                 Github
               </label>
@@ -121,19 +148,6 @@ const Page = () => {
                 name="github"
                 placeholder="Enter your Github profile"
                 value={formData.github}
-                onChange={handleChange}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              />
-            </div>
-            <div>
-              <label htmlFor="github" className="sr-only">
-               Github Personal access token (classic)
-              </label>
-              <input
-                type="text"
-                name="github_personal_token"
-                placeholder="Enter your Github Personal access token (Classic)"
-                value={formData.github_personal_token}
                 onChange={handleChange}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               />
@@ -171,40 +185,40 @@ const Page = () => {
               />
             </div>
             <div>
-              <label htmlFor="degree" className="sr-only">
-                Degree
-              </label>
-              <input
-                type="text"
-                name="degree"
-                placeholder="Degree"
-                value={education.degree}
-                onChange={handleChangeEdu}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              />
-            </div>
-            <div>
-              <label htmlFor="year" className="sr-only">
+              <label htmlFor="instituteYear" className="sr-only">
                 Year
               </label>
               <input
-                type="text"
-                name="year"
-                placeholder="Year"
-                value={education.year}
+                type="number"
+                name="instituteYear"
+                placeholder="Institute Year"
+                value={education.instituteYear}
                 onChange={handleChangeEdu}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               />
             </div>
             <div>
-              <label htmlFor="GPA" className="sr-only">
-                GPA
+              <label htmlFor="school" className="sr-only">
+                School
+              </label>
+              <input
+                type="text"
+                name="school"
+                placeholder="School"
+                value={education.school}
+                onChange={handleChangeEdu}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              />
+            </div>
+            <div>
+              <label htmlFor="schoolYear" className="sr-only">
+                Year
               </label>
               <input
                 type="number"
-                name="GPA"
-                placeholder="GPA"
-                value={education.GPA}
+                name="schoolYear"
+                placeholder="schoolYear"
+                value={education.schoolYear}
                 onChange={handleChangeEdu}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               />
@@ -216,19 +230,6 @@ const Page = () => {
               Experience
             </h3>
             <div>
-              <label htmlFor="company" className="sr-only">
-                Company
-              </label>
-              <input
-                type="text"
-                name="company"
-                placeholder="Company"
-                value={experience.company}
-                onChange={handleChangeExp}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              />
-            </div>
-            <div>
               <label htmlFor="role" className="sr-only">
                 Role
               </label>
@@ -238,19 +239,77 @@ const Page = () => {
                 placeholder="Role"
                 value={experience.role}
                 onChange={handleChangeExp}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              />
+            </div>
+            <div>
+              <label htmlFor="Company" className="sr-only">
+                Company
+              </label>
+              <input
+                type="text"
+                name="company"
+                placeholder="Company"
+                value={experience.company}
+                onChange={handleChangeExp}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               />
             </div>
             <div>
-              <label htmlFor="year" className="sr-only">
+              <label htmlFor="companyYear" className="sr-only">
                 Year
               </label>
               <input
                 type="text"
-                name="year"
-                placeholder="Year"
-                value={experience.year}
+                name="companyYear"
+                placeholder="Company Year"
+                value={experience.companyYear}
                 onChange={handleChangeExp}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              />
+            </div>
+          </div>
+
+          <div className="rounded-md shadow-sm -space-y-px">
+            <h3 className="text-lg leading-6 font-medium text-gray-900 mt-6 mb-4">
+              Projects
+            </h3>
+            <div>
+              <label htmlFor="project1" className="sr-only">
+                Project1
+              </label>
+              <input
+                type="text"
+                name="project1"
+                placeholder="Project1"
+                value={projects.project1}
+                onChange={handleChangeProj}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              />
+            </div>
+            <div>
+              <label htmlFor="project2" className="sr-only">
+                Project2
+              </label>
+              <input
+                type="text"
+                name="project2"
+                placeholder="Project2"
+                value={projects.project2}
+                onChange={handleChangeProj}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              />
+            </div>
+            <div>
+              <label htmlFor="project3" className="sr-only">
+                Project3
+              </label>
+              <input
+                type="text"
+                name="project3"
+                placeholder="project3"
+                value={projects.project3}
+                onChange={handleChangeProj}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               />
             </div>

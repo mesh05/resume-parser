@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function ResumeCreatePage() {
-  const [user, changeUser] = useState("null");
+  const [user, changeUser] = useState(null);
   const [link, changeLink] = useState("");
   const router = useRouter();
 
@@ -14,12 +14,15 @@ export default function ResumeCreatePage() {
   useEffect(() => {
     axios.get("http://localhost:3000/api/user").then((response) => {
       changeUser(response.data);
+      console.log(response.data);
+      if (response.data.length == 0) router.push("/form");
     });
   }, []);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <input
+        style={{ color: "black" }}
         type="text"
         placeholder="Enter link"
         onChange={(e) => changeLink(e.target.value)}
@@ -27,14 +30,15 @@ export default function ResumeCreatePage() {
       />
       <button
         onClick={() => {
+          console.log(user[0]);
           axios({
             method: "post",
             url: "http://localhost:8000/details",
             data: {
               link: link,
-              user: user,
+              user: user[0],
             },
-            responseType: "arraybuffer", // Ensure Axios treats the response as a blob
+            responseType: "arraybuffer",
           }).then((response) => {
             const url = window.URL.createObjectURL(
               new Blob([response.data], {
@@ -43,7 +47,7 @@ export default function ResumeCreatePage() {
             );
             const downloadLink = document.createElement("a");
             downloadLink.href = url;
-            downloadLink.setAttribute("download", "resume1123.docx"); //or any other extension
+            downloadLink.setAttribute("download", "resume.docx"); //or any other extension
             document.body.appendChild(downloadLink);
             downloadLink.click();
             document.body.removeChild(downloadLink);
